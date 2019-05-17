@@ -1,10 +1,42 @@
-<table>
-    <thead>
-        <tr>
-            <th>Original</th>
-            <th>Generated</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-6 pl-4 mb-4" ng-repeat="data in allData">
+        <h4>{{ data.header }}</h4>
+        <div ng-if="data.data == undefined">
+            <span class="text-danger">failed to fetch data source</span>
+        </div>
+        <div ng-if="data.data != undefined">
+            <div>
+                <select class="custom-select w-50" ng-model="data.page" ng-init="data.page='0'">
+                    <option value="{{ $index }}" ng-repeat="name in data.data.names">{{ name }}</option>
+                </select>
+            </div>
+            <div ng-repeat="compound in data.data.compounds">
+                <div class="mt-2" ng-show="data.page === $index.toString()">
+                    <div class="row mb-5 mt-5 h-50">
+                        <div class="col-12 text-center">
+                            <div smiles-drawer smiles="{{ compound.chem_struct }}"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>property</th>
+                                        <th>value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="(key, value) in compound">
+                                        <td class="w-25">{{key}}</td>
+                                        <td class="w-75">{{value}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
